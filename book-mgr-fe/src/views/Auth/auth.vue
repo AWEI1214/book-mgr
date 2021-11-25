@@ -34,14 +34,22 @@
         </a-tab-pane>
         <a-tab-pane tab="注册" key="2">
           <div class="item">
-            <a-input size="large" placeholder="用户名">
+            <a-input
+              size="large"
+              placeholder="用户名"
+              v-model:value="regFrom.account"
+            >
               <template #prefix>
                 <UserOutlined />
               </template>
             </a-input>
           </div>
           <div class="item">
-            <a-input size="large" placeholder="密码">
+            <a-input
+              size="large"
+              placeholder="密码"
+              v-model:value="regFrom.password"
+            >
               <template #prefix>
                 <LockOutlined />
               </template>
@@ -55,7 +63,9 @@
             </a-input>
           </div>
           <div class="item">
-            <a-button size="large" type="primary"> 注册 </a-button>
+            <a-button size="large" type="primary" @click="register">
+              注册
+            </a-button>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -64,7 +74,8 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
+import { auth } from "../../service/inedx";
 import {
   UserOutlined,
   LockOutlined,
@@ -77,8 +88,17 @@ export default {
     MailOutlined,
   },
   setup() {
+    const regFrom = reactive({
+      account: "",
+      password: "",
+    });
+    const register = () => {
+      auth.register(regFrom.account, regFrom.password);
+    };
     return {
       activeKey: ref("1"),
+      regFrom,
+      register,
     };
   },
 };
