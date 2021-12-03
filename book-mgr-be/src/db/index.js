@@ -1,5 +1,7 @@
+//直接require就会执行文件
 require('./Schemas/User')
-
+require('./Schemas/inviteCode')
+require('./Schemas/Book')
 const mongoose = require('mongoose')
 
 const connect = ()=> {
