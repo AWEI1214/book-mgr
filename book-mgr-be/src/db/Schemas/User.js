@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
-const {getMate} = require('../helpers')
+const {getMeta,perSave} = require('../helpers')
 const UserSchema = new mongoose.Schema({
   account:String,
   password:String,
 
-  meta:getMate()
+  meta:getMeta()
 
 });
+UserSchema.pre('save',perSave)
 mongoose.model('User',UserSchema)

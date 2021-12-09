@@ -17,7 +17,12 @@
       </space-between>
 
       <a-divider />
-      <a-table :columns="columns" :data-source="list" :pagination="false">
+      <a-table
+        :columns="columns"
+        :data-source="list"
+        :pagination="false"
+        bordered
+      >
         <template #publishDate="data">
           {{ formatTimestamp(data.record.publishDate) }}
         </template>
@@ -29,6 +34,8 @@
         </template>
 
         <template #actions="record">
+          <a href="javascript:;" @click="toDetail(record)">详情</a>
+          &nbsp;<span style="color: rgb(168, 168, 168)">|</span>&nbsp;
           <a href="javascript:;" @click="update(record)">编辑</a>
           &nbsp;<span style="color: rgb(168, 168, 168)">|</span>&nbsp;
           <a href="javascript:;" @click="remove(record)">删除</a>
@@ -60,6 +67,7 @@ import { ref, onMounted } from "vue";
 import { book } from "../../service/inedx";
 import { result, formatTimestamp } from "../../helper/utils/index";
 import { Input, message, Modal } from "ant-design-vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -67,6 +75,8 @@ export default {
     Update,
   },
   setup() {
+    const router = useRouter();
+
     const columns = [
       {
         title: "书名",
@@ -147,8 +157,7 @@ export default {
     //关键词搜索
     const onSearch = () => {
       getList();
-
-      isSearch.value = Boole(keyword.value);
+      isSearch.value = Boolean(keyword.value);
     };
 
     //清空搜索框
@@ -202,6 +211,7 @@ export default {
       });
     };
 
+    //修改书籍信息
     const update = ({ record }) => {
       showUpdateModal.value = true;
       curEditBook.value = record;
@@ -210,6 +220,10 @@ export default {
 
     const updateCurBook = (newData) => {
       Object.assign(curEditBook.value, newData);
+    };
+
+    const toDetail = ({ record }) => {
+      router.push(`/books/${record._id}`);
     };
 
     return {
@@ -231,6 +245,7 @@ export default {
       update,
       curEditBook,
       updateCurBook,
+      toDetail,
     };
   },
 };

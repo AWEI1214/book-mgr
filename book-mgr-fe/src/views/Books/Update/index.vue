@@ -2,7 +2,7 @@
   <div>
     <a-modal
       :visible="props.show"
-      title="添加书籍"
+      title="修改书籍"
       @ok="submit"
       @cancel="close"
     >

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {getMate} = require('../helpers')
+const {getMeta,perSave} = require('../helpers')
 const BookSchema = new mongoose.Schema({
   //书名
   name:String,
@@ -14,8 +14,9 @@ const BookSchema = new mongoose.Schema({
   //库存
   count:Number,
 
-  meta:getMate()
+  meta:getMeta()
 
 });
+BookSchema.pre('save',perSave)
 mongoose.model('Book',BookSchema)
 
